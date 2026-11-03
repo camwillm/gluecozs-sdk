@@ -1,6 +1,9 @@
 package sdk
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
 type NavItem struct {
 	ID, Label, Href string
@@ -22,7 +25,13 @@ type Widget struct {
 
 type Event struct {
 	ID, Title, Tag, Source string
+	Calendar               string // which calendar it belongs to, for colors and show/hide
+	AllDay                 bool
 	Start, End             time.Time
+}
+
+type EventProvider interface {
+	EventsOn(ctx context.Context, day time.Time) ([]Event, error)
 }
 
 type Alert struct {
